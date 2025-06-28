@@ -3,7 +3,7 @@
         <div class="popup--title">
             Новый отзыв
             <div class="close pointer" onclick="closePopup()">
-                <img src="./image/close.svg">
+                <img src="{{ asset('image/close.svg') }}">
             </div>
         </div>
         <div class="comment--info">

@@ -2,14 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CheckEmailRequest;
+use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\StoreUserRequest;
+use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
     public function index(): View
     {
         return view('user.profile');
+    }
+
+    public function auth(): View
+    {
+        return view('user.authentication');
+    }
+
+    public function login(LoginUserRequest $request, UserService $userService): JsonResponse
+    {
+        return response()->json($userService->attemptAuth(
+            $request->input('email'),
+            $request->input('password')
+        ));
+    }
+
+    public function logout(): RedirectResponse
+    {
+        Auth::logout();
+        return back();
+    }
+
+    public function store(StoreUserRequest $request): RedirectResponse
+    {
+        $user = User::create($request->all());
+        Auth::login($user);
+        return back();
+    }
+
+    public function checkEmail(CheckEmailRequest $request, UserService $userService): JsonResponse
+    {
+        if ($userService->emailExists($request->input('email'))) {
+            return response()->json(['unavailable' => 'Этот email уже занят']);
+        }
+
+        return response()->json();
+    }
+
+    public function passRecovery()
+    {
+        return view('user.password-recovery');
     }
 }

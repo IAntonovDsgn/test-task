@@ -12,9 +12,9 @@ export default defineConfig({
                 'resources/css/menu.css',
                 'resources/css/popup.css',
                 'resources/css/profile.css',
-                'resources/js/authentication.js',
                 'resources/js/base.js',
-                'resources/js/comments.js'
+                'resources/js/comments.js',
+                'resources/js/authentication.js',
                     ],
             refresh: true,
         }),

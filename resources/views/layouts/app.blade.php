@@ -13,7 +13,7 @@
         'resources/css/profile.css'
     ])
 </head>
-<body>
+<body data-auth="{{ auth()->check() ? 1 : null }}">
     @include('partials.header')
     @include('partials.menu')
     @include('reviews.add-comment')
@@ -26,9 +26,9 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     @vite([
-        'resources/js/authentication.js',
         'resources/js/base.js',
-        'resources/js/comments.js'
+        'resources/js/comments.js',
+        'resources/js/authentication.js',
     ])
 </body>
 </html>

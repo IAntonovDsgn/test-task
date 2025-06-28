@@ -1,9 +1,8 @@
 .header {
-    height: 60px;
-    width: 100%;
+    /*width: 100%;*/
 }
 .header--info {
-    margin: 24px 120px;
+    padding: 24px 120px;
     display: flex;
 }
 .header .logo {

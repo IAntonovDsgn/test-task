@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="field buttons">
-                <div class="button">
+                <div class="button" onclick="openPage('{{ route('user.auth') }}')">
                     Назад
                 </div>
                 <div class="button primary">
