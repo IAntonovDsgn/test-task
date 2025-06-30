@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -21,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'photo'
     ];
 
     /**
@@ -41,4 +44,20 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    //аксессор для поля photo:
+    protected function photo(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+
+                if (empty($value)) {
+                    return asset('image/default-avatar.svg');
+                }
+
+                return $value;
+
+            }
+        );
+    }
 }

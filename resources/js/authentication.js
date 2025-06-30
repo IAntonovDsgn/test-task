@@ -38,16 +38,11 @@ $('#auth-data').on('submit', function (event) {
     }
 
     $.ajax({
-        url: $(event.target).attr('action'),
-        type: 'get',
-        data: {
-            email: event.target.email.value,
-            password: event.target.password.value
-        },
-        headers: {
+        url: $(event.target).attr('action'), type: 'get', data: {
+            email: event.target.email.value, password: event.target.password.value
+        }, headers: {
             'X-CSRF-TOKEN': event.target._token.value
-        },
-        success: function (response) {
+        }, success: function (response) {
             if (response.email) {
                 showError(email, response.email);
             } else if (response.password) {
@@ -121,8 +116,6 @@ function validateEmail(event) {
             }
         });
 
-
-
     } catch (error) {
         alert("Ошибка валидации поля 'E-mail'. \n" + error);
         return false;
@@ -169,3 +162,30 @@ function validateApproval(event) {
         return false;
     }
 }
+
+//валидация и отправка формы изменения фотографии пользователя:
+$('#update-photo-btn').click(function () {
+    $('#photo-input').click();
+});
+
+$('#photo-input').change(function () {
+    console.log(this.files[0].size);
+    if (this.files[0].size < 2097152) {
+        $('#user-update-photo').submit()
+    } else {
+        showError($('#update-photo-btn'), 'Максимальный размер файла 2МБ')
+    }
+});
+
+//Отправка формы изменения данных пользователя без пустых полей:
+$('#user-update-data').on('submit', function() {
+    const elements = this.elements;
+
+    for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
+
+        if (element.value.length === 0) {
+            element.removeAttribute('name');
+        }
+    }
+});

@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\PostTooLargeException;
+use Illuminate\Support\MessageBag;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -27,4 +29,18 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, Throwable $e)
+    {
+        if ($e instanceof PostTooLargeException) {
+            $errors = new MessageBag([
+                'photo' => 'Файл слишком большой. Максимальный размер: 2MB'
+            ]);
+
+            return back()->withErrors($errors);
+        }
+
+        return parent::render($request, $e);
+    }
+
 }

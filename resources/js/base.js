@@ -1,20 +1,16 @@
 /** закрывать при клике вне */
-window.openPersonPopup = function () {
-    let popupClasses = $("#person-popup").attr('class');
-    if (popupClasses.indexOf('no-display') >= 0) {
-        $("#person-popup").removeClass('no-display');
-    } else {
+
+$(document).on('click', function (event) {
+    const target = $(event.target);
+    if (target.closest($('#person-pointer')).length) {
+        $("#person-popup").toggleClass('no-display');
+    } else if (!target.closest($('#person-popup')).length) {
         $("#person-popup").addClass('no-display');
     }
-}
+});
 
-jQuery(function ($) {
-    $(document).mouseup(function (e) {
-        let div = $("#person-popup");
-        if (!div.is(e.target) && div.has(e.target).length === 0) {
-            $("#person-popup").addClass('no-display');
-        }
-    });
+$('#update-password-button').on('click', function () {
+    $('#update-password-fields').toggleClass('no-display');
 });
 
 window.openPage = function (page) {
@@ -31,7 +27,6 @@ window.closePopup = function () {
 }
 
 window.isAuthorized = function () {
-    console.log(document.body.dataset.auth);
     if (document.body.dataset.auth) {
         $('[authorized]').removeClass('no-display');
         $('[not-authorized]').addClass('no-display');

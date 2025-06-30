@@ -26,6 +26,8 @@ Route::get('/privacy-policy', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/user/logout', [UserController::class, 'logout'])->name('user.logout');
+    Route::post('/user/update', [UserController::class, 'update'])->name('user.update');
+    Route::post('/user/update-photo', [UserController::class, 'updatePhoto'])->name('user.update-photo');
 });
 
 Route::middleware('guest')->group(function () {

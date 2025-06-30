@@ -9,7 +9,7 @@
             <div id="auth" class="tab pointer active">Вход</div>
             <div id="registration" class="tab pointer">Регистрация</div>
         </div>
-        <form id="auth-data" class="popup--fields" method="post" action="{{route('user.login')}}" novalidate>
+        <form id="auth-data" class="popup--fields" method="POST" action="{{route('user.login')}}" novalidate>
             @csrf
             <div class="field">
                 <label class="field--label" for="email">E-mail</label>
@@ -34,7 +34,7 @@
             </div>
         </form>
 
-        <form id="registration-data" class="popup--fields no-display" action="{{route('user.store')}}" method="post" novalidate>
+        <form id="registration-data" class="popup--fields no-display" action="{{route('user.store')}}" method="POST" novalidate>
             @csrf
             <div class="field">
                 <label class="field--label" for="name">Логин / Имя пользователя</label>
