@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CheckEmailRequest extends FormRequest
+class PasswordRecoveryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,16 @@ class CheckEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email', 'max:50']
+            'email' => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Заполните поле',
+            'email.email' => 'Введите корректный Email',
+            'email.regex' => 'Введите корректный Email',
         ];
     }
 }

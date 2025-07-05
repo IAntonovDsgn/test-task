@@ -22,8 +22,19 @@ class LoginUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email'],
-            'password' => ['required', 'ascii'],
+            'login-email' => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'],
+            'login-password' => ['required', 'ascii'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'login-email.required' => 'Заполните поле',
+            'login-email.email' => 'Введите корректный Email',
+            'login-email.regex' => 'Введите корректный Email',
+            'login-password.required' => 'Заполните поле',
+            'login-password.ascii' => 'Неверный пароль'
         ];
     }
 }

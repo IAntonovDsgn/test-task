@@ -18,154 +18,36 @@ function showError(obj, message) {
     return false;
 }
 
-//Валидация и отправка формы входа:
-$('#auth-data').on('submit', function (event) {
-    $('.error-message').remove();
-    event.preventDefault();
+//валидация и отправка формы изменения фотографии пользователя:
+$('#update-photo-btn').click(function () {
+    $('#photo-input').click();
+});
 
-    let email = event.target.email;
-    let password = event.target.password;
-
-    $(email).removeClass('invalid');
-    $(password).removeClass('invalid');
-
-    if (email.value.length < 1) {
-        return showError(email, 'Введите e-mail');
-    }
-
-    if (password.value.length < 1) {
-        return showError(password, 'Введите пароль');
-    }
-
-    $.ajax({
-        url: $(event.target).attr('action'),
-        type: 'get',
-        data: {
-            email: event.target.email.value,
-            password: event.target.password.value
-        },
-        headers: {
-            'X-CSRF-TOKEN': event.target._token.value
-        },
-        success: function (response) {
-            if (response.email) {
-                showError(email, response.email);
-            } else if (response.password) {
-                showError(password, response.password);
-            } else {
-                location.reload();
-            }
-        }
-    });
-})
-
-//Валидация формы регистрации:
-$('#registration-data').on('submit', function (event) {
-    $('.error-message').remove();
-
-    const isNameValid = validateName(event);
-    const isEmailValid = validateEmail(event);
-    const isPasswordValid = validatePassword(event);
-    const isApproval = validateApproval(event);
-
-    if (!(isNameValid && isEmailValid && isPasswordValid && isApproval)) {
-        event.preventDefault();
+$('#photo-input').change(function () {
+    console.log(this.files[0].size);
+    if (this.files[0].size < 2097152) {
+        $('#user-update-photo').submit()
+    } else {
+        showError($('#update-photo-btn'), 'Максимальный размер файла 2МБ')
     }
 });
 
-function validateName(event) {
-    try {
-        let name = event.target.name;
-        $(name).removeClass('invalid');
+//Отправка формы изменения данных пользователя без пустых полей:
+$('#user-update-data').on('submit', function () {
+    const elements = this.elements;
 
-        if (name.value.length < 2) {
-            return showError(name, 'Имя слишком короткое (мин. 2 символа)');
-        } else if (name.value.length > 30) {
-            return showError(name, 'Имя слишком длинное (макс. 30 символов)');
+    for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
+
+        if (element.value.length === 0) {
+            element.removeAttribute('name');
         }
-
-        return true;
-
-    } catch (error) {
-        alert("Ошибка валидации поля 'Логин / Имя пользователя'. \n" + error);
-        return false;
     }
-}
+});
 
-function validateEmail(event) {
-    try {
-        let email = event.target.email;
-        $(email).removeClass('invalid');
-
-        if (email.value.length < 1) {
-            return showError(email, 'Заполните поле E-mail');
-        } else if (email.value.length > 50) {
-            return showError(email, 'E-mail слишком длинный (макс. 50 символов)');
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-            return showError(email, 'E-mail должен соответствовать маске example@example.domen');
-        }
-
-        $.ajax({
-            url: $(event.target).attr('action') + '/check-email',
-            type: 'POST',
-            data: {email: event.target.email.value},
-            headers: {
-                'X-CSRF-TOKEN': event.target._token.value
-            },
-            success: function (response) {
-                if (response.unavailable) {
-                    showError(email, response.unavailable);
-                } else {
-                    return true;
-                }
-            }
-        });
-
-
-
-    } catch (error) {
-        alert("Ошибка валидации поля 'E-mail'. \n" + error);
-        return false;
-    }
-}
-
-function validatePassword(event) {
-    try {
-        let password = event.target.password;
-        $(password).removeClass('invalid');
-        $(event.target.password_confirmation).removeClass('invalid');
-
-        if (password.value.length < 8) {
-            return showError(password, 'Пароль слишком короткий (мин. 8 символа)');
-        } else if (password.value.length > 255) {
-            return showError(password, 'Пароль слишком длинный (макс. 255 символов)');
-        } else if (!/^[\x21-\x7E]+$/.test(password.value)) {
-            return showError(password, 'Пароль может содержать только латинские буквы, цифры и спецсимволы');
-        } else if (!(password.value === event.target.password_confirmation.value)) {
-            return showError(event.target.password_confirmation, 'Пароли не совпадают');
-        }
-
-        return true;
-
-    } catch (error) {
-        alert("Ошибка валидации поля 'Пароль'. \n" + error);
-        return false;
-    }
-}
-
-function validateApproval(event) {
-    try {
-        let approval = event.target.approval;
-        $(approval).removeClass('invalid');
-
-        if (!approval.checked) {
-            return showError(approval.nextElementSibling, 'Подтвердите согласие');
-        }
-
-        return true;
-
-    } catch (error) {
-        alert("Ошибка валидации чекбокса 'Я даю согласие на обработку моих персональных данных'. \n" + error);
-        return false;
-    }
-}
+//Подготовка и отправка формы смены пароля:
+$('#user-update-password').on('submit', function (event) {
+    event.preventDefault();
+    event.target.oldPassword.value = $('#old-password')[0].value;
+    this.submit();
+});
