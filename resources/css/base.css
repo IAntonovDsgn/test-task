@@ -76,6 +76,7 @@ body {
 
 .buttons {
     display: flex;
+    align-items: center;
     gap: 24px;
 }
 
@@ -109,7 +110,7 @@ input:focus-visible {
 }
 
 .field:not(:last-child) {
-    margin-bottom: 32px;
+    margin-bottom: 20px;
 }
 
 .field .field--label {
@@ -143,6 +144,10 @@ input:focus-visible {
     font-size: 9pt;
     color: red;
     margin-top: 2px;
+}
+
+.success-message {
+    color: green;
 }
 
 input:focus-visible, textarea:focus-visible {

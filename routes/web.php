@@ -28,14 +28,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/logout', [UserController::class, 'logout'])->name('user.logout');
     Route::post('/user/update', [UserController::class, 'update'])->name('user.update');
     Route::post('/user/update-photo', [UserController::class, 'updatePhoto'])->name('user.update-photo');
+    Route::post('/user/update-password', [UserController::class, 'updatePassword'])->name('user.update-password');
 });
 
 Route::middleware('guest')->group(function () {
     Route::get('/user/auth', [UserController::class, 'auth'])->name('user.auth');
-    Route::get('/user/login', [UserController::class, 'login'])->name('user.login');
+    Route::post('/user/login', [UserController::class, 'login'])->name('user.login');
     Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
-    Route::post('/user/store/check-email', [UserController::class, 'checkEmail'])->name('user.check-email');
-    Route::get('/user/password-recovery', [UserController::class, 'passRecovery'])->name('user.password-recovery');
+    Route::get('/user/password-recovery', [UserController::class, 'passwordRecovery'])->name('password.request');
+    Route::post('/user/password-recovery', [UserController::class, 'passwordRecoverySendEmail'])->name('password.email');
+    Route::get('/user/reset-password/{token}', [UserController::class, 'resetPassword'])->name('password.reset');
+    Route::post('/user/reset-password', [UserController::class, 'resetPasswordStore'])->name('password.reset.store');
 });
 
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');

@@ -15,7 +15,7 @@
             @endguest
 
             @auth
-                <div id="person-pointer" class="person pointer" onclick="openPersonPopup()" authorized>
+                <div id="person-pointer" class="person pointer" authorized>
                     <span class="person--icon">
                         <img src="{{ asset('image/Union.png') }}">
                     </span>
