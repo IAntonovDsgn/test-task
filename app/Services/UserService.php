@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Repositories\EloquentUserRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +13,12 @@ use Illuminate\Validation\ValidationException;
 
 class UserService
 {
+    public function __construct(
+        private readonly EloquentUserRepository $userRepository
+    )
+    {
+    }
+
     public function attemptAuth(string $email, string $password): void
     {
         if (!Auth::attempt(['email' => $email, 'password' => $password])) {
@@ -24,13 +31,23 @@ class UserService
 
     public function registerAndAuth(array $data): void
     {
-        $user = User::create($data);
-        Auth::login($user);
+        if ($user = $this->userRepository->createUser($data)) {
+            Auth::login($user);
+        } else {
+            throw ValidationException::withMessages([
+                'error' => 'Ошибка: не удалось создать пользователя'
+            ]);
+        }
+
     }
 
     public function update(Authenticatable $user, array $data): void
     {
-        $this->checkPassword($user, $data['password']);
+        try {
+            $this->checkPassword($user, $data['password']);
+        } catch (ValidationException $e) {
+            throw ValidationException::withMessages($e->errors());
+        }
 
         $updateData = [];
         if (isset($data['name'])) {
@@ -41,7 +58,11 @@ class UserService
         }
 
         if (!empty($updateData)) {
-            $user->update($updateData);
+            if (!$this->userRepository->updateUser($user, $updateData)) {
+                throw ValidationException::withMessages([
+                    'error' => 'Ошибка обновления данных пользователя'
+                ]);
+            }
         }
     }
 
@@ -52,13 +73,18 @@ class UserService
         }
 
         $path = $photo->store('photos', 'public');
-        $user->photo = $path;
-        $user->save();
+
+        if (!$this->userRepository->updatePhoto($user, $path)) {
+            throw ValidationException::withMessages([
+                'error' => 'Ошибка обновления фото пользователя'
+            ]);
+        }
+
     }
 
     public function updatePassword(Authenticatable $user, string $password): array
     {
-        if ($user->update(['password' => $password])) {
+        if ($this->userRepository->updatePassword($user, $password)) {
             return ['success' => 'Пароль успешно изменён!'];
         } else {
             throw ValidationException::withMessages([
@@ -75,7 +101,7 @@ class UserService
 
     public function checkPassword(Authenticatable $user, string $password): bool
     {
-        if (Hash::check($password, $user->password)) {
+        if (Hash::check($password, $this->userRepository->getPassword($user))) {
             return true;
         } else {
             throw ValidationException::withMessages([

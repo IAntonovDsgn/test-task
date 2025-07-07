@@ -66,6 +66,11 @@
               method="POST"
               novalidate>
             @csrf
+            @error('error')
+            <p class="error-message">
+                {{ $message }}
+            </p>
+            @enderror
             <div class="field">
                 <label class="field--label" for="name">Логин / Имя пользователя</label>
                 <div class="field--data">

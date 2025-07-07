@@ -94,6 +94,11 @@
                         </div>
                     </div>
                 </div>
+                @error('error')
+                <p class="error-message">
+                    {{ $message }}
+                </p>
+                @enderror
                 <div class="buttons">
                     <button class="button primary">Сохранить</button>
                     <div class="button" id="update-password-button">Сменить пароль</div>

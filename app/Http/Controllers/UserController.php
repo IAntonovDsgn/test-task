@@ -30,7 +30,11 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request, UserService $userService): RedirectResponse
     {
-        $userService->registerAndAuth($request->validated());
+        try {
+            $userService->registerAndAuth($request->validated());
+        } catch (ValidationException $e) {
+            return back()->withErrors($e->errors());
+        }
         return back();
     }
 
@@ -68,7 +72,11 @@ class UserController extends Controller
     public function updatePhoto(UpdatePhotoUserRequest $request, UserService $userService): RedirectResponse
     {
         $photo = $request->file('photo');
-        $userService->updatePhoto(Auth::user(), $photo);
+        try {
+            $userService->updatePhoto(Auth::user(), $photo);
+        } catch (ValidationException $e) {
+            return back()->withErrors($e->errors());
+        }
         return back();
     }
 
@@ -92,10 +100,10 @@ class UserController extends Controller
     {
         try {
             $status = $userService->passwordRecoverySendEmail($request->only('email'));
-            return back()->with($status);
         } catch (ValidationException $e) {
             return back()->withErrors($e->errors());
         }
+        return back()->with($status);
     }
 
     public function resetPassword(string $token): View
@@ -107,10 +115,10 @@ class UserController extends Controller
     {
         try {
             $status = $userService->resetPassword($request->only('email', 'password', 'password_confirmation', 'token'));
-            return redirect()->route('user.auth')->with($status);
         } catch (ValidationException $e) {
             return back()->withErrors($e->errors());
         }
+        return redirect()->route('user.auth')->with($status);
     }
 
 }
