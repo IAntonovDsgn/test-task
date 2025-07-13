@@ -42,3 +42,5 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+Route::get('/reviews/{id}', [ReviewController::class, 'show'])->name('reviews.show')->where('id', '[0-9]+')->middleware('only.ajax');

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Главная')
+@section('title', 'Политика обработки персональных данных')
 
 @section('content')
 

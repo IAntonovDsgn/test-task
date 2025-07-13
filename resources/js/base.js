@@ -54,6 +54,6 @@ window.onload = function () {
     });
 
     $('.menu--item').removeClass('active');
-    $(`.menu--item[data-page="${window.location}"]`).addClass('active');
+    $(`.menu--item[data-page="${window.location.origin + window.location.pathname}"]`).addClass('active');
 };
 
