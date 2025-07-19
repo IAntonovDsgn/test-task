@@ -1,6 +1,6 @@
 <div id="header" class="header">
     <div class="header--info">
-        <div class="logo">
+        <div class="logo" onclick="openPage('{{ route('index') }}')">
             logo text
         </div>
         <div class="right-block">

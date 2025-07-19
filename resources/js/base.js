@@ -24,6 +24,7 @@ window.openPopup = function () {
 window.closePopup = function () {
     $('#add-comment').addClass('no-display');
     $('#popup-comment').addClass('no-display');
+    $('#update-comment').addClass('no-display');
 }
 
 window.isAuthorized = function () {

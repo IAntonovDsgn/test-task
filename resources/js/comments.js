@@ -1,51 +1,66 @@
-window.updateComment = function (request) {
-    console.log('здесь нужно получить полную информацию с бэка и впихнуть в попап. Удачи');
+const $filterForm = $('#filters-form');
 
-    openPopup();
-}
+const fetchData = (element, callback) => {
+    $.get($(element).data('request'))
+        .done(callback)
+        .fail(() => console.error('Request failed'));
+};
+
+window.updateComment = function (element) {
+    fetchData(element, data => {
+        const {
+            id,
+            title,
+            text,
+            is_recommended
+        } = data;
+
+        $('#title-update').val(title);
+        $('#text-update').val(text);
+        $('#id-update').val(id);
+
+        $('#recommend-yes').prop('checked', is_recommended === 1);
+        $('#recommend-no').prop('checked', is_recommended === 0);
+
+        $('#update-comment').removeClass('no-display');
+    });
+};
 
 window.showAll = function (element) {
-    const $element = $(element);
-    const request = $element.attr('data-request');
+    const $recommend = $('#recommend-block');
+    const $noRecommend = $('#no-recommend-block');
 
-    $.ajax({
-        url: request,
-        method: 'get',
-        success: function (data) {
-            if (data.user_id) {
-                $('.nickname').text(data.user.name);
-                if (data.is_recommended) {
-                    $('#recommend-block').removeClass('no-display');
-                    $('#no-recommend-block').addClass('no-display');
-                } else {
-                    $('#recommend-block').addClass('no-display');
-                    $('#no-recommend-block').removeClass('no-display');
-                }
-            } else {
-                $('.nickname').text('Гость');
-                $('#recommend-block').addClass('no-display');
-                $('#no-recommend-block').addClass('no-display');
-            }
-            $('#comment-title').text(data.title);
-            $('#comment-text').text(data.text);
+    $recommend.addClass('no-display');
+    $noRecommend.addClass('no-display');
 
-            $('#popup-comment').removeClass('no-display');
-        }
+    fetchData(element, data => {
+        const {
+            user_id,
+            user = {},
+            is_recommended,
+            title,
+            text
+        } = data;
+
+        $('.nickname').text(user_id ? user.name : 'Гость');
+
+        $recommend.toggleClass('no-display', is_recommended !== 1);
+        $noRecommend.toggleClass('no-display', is_recommended !== 0);
+
+        $('#comment-text').text(text);
+        $('#comment-title').text(title);
+
+        $('#popup-comment').removeClass('no-display');
     });
-}
+};
 
 window.updateSort = function () {
     let sort = $('#sort').attr('class');
-    if (sort.indexOf('up') >= 0) {
-        $('#sort-input').val('down');
-    } else {
-        $('#sort-input').val('up');
-    }
-    $('#filters-form').submit();
+    $('#sort-input').val(sort.indexOf('up') >= 0 ? 'down' : 'up');
+    $filterForm.submit();
 }
 
-window.cauntPerPage = function (element) {
-    $('#per-page').val('');
+window.countPerPage = function (element) {
     $('#per-page').val($(element)[0].innerText);
-    $('#filters-form').submit();
+    $filterForm.submit();
 }

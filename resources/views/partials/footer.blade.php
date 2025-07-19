@@ -1,5 +1,5 @@
 <div id="footer" class="footer">
-    <div class="left-block">
+    <div class="left-block" onclick="openPage('{{ route('index') }}')">
         <img src="{{ asset('image/H_7%20semibold.png') }}">
     </div>
     <div class="center">

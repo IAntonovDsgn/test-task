@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreReviewRequest extends FormRequest
+class UpdateReviewRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,21 +19,20 @@ class StoreReviewRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-
-     public function rules(): array
+    public function rules(): array
     {
         return [
-            'user_id' => ['string', 'exists:users,id', 'sometimes'],
-            'title' => ['required', 'string', 'max:200'],
-            'text' => ['required', 'string'],
-            'recommend' => ['sometimes', 'numeric']
+            'id-update' => ['required', 'numeric', 'exists:reviews,id'],
+            'title-update' => ['required', 'string', 'max:200'],
+            'text-update' => ['required', 'string'],
+            'recommend-update' => ['sometimes', 'numeric']
         ];
     }
 
     public function messages(): array
     {
         return [
-            'user_id' => 'Неверный id пользователя',
+            'id-update' => 'Отзыв не найден',
             'title.max' => 'Максимальная длина поля 200 символов',
             'title.required' => 'Заполните поле',
             'text.required' => 'Заполните поле'

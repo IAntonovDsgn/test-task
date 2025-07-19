@@ -59,10 +59,11 @@
                         <div class="field">
                             <label class="field--label">Пароль</label>
                             <div class="field--data with-image">
-                                <input class="password @error('password') invalid @enderror  @error('oldPassword') invalid @enderror"
-                                       type="password"
-                                       id="old-password"
-                                       name="password">
+                                <input
+                                    class="password @error('password') invalid @enderror  @error('oldPassword') invalid @enderror"
+                                    type="password"
+                                    id="old-password"
+                                    name="password">
                                 <span class="private" onclick="showPassword(this)"></span>
                             </div>
                             @error('password')
@@ -103,9 +104,9 @@
                     <button class="button primary">Сохранить</button>
                     <div class="button" id="update-password-button">Сменить пароль</div>
                     @if(session('success'))
-                    <p class="success-message">
-                        {{ session('success') }}
-                    </p>
+                        <p class="success-message">
+                            {{ session('success') }}
+                        </p>
                     @endif
                 </div>
             </form>
@@ -159,30 +160,33 @@
         </div>
 
         <h2>Мои отзывы</h2>
-
-        <div class="comment">
-            <div class="person">
-                                <span class="person--icon">
-                                    <img src="{{ asset('image/Union.png') }}" alt="user-icon">
-                                </span>
-                <span class="person--nickname">Nickname</span>
+        @include('reviews.comment')
+        @foreach($reviews as $review)
+            <div class="comment">
+                <div class="person">
+                            <span class="person--icon">
+                                <img src="{{ asset('image/Union.png') }}">
+                            </span>
+                    <span class="person--nickname">{{ $review->user->name ?? 'Гость' }}</span>
+                </div>
+                <div class="date">
+                    {{ $review->created_at->format('d.m.Y') }}
+                </div>
+                <div class="comment--title">
+                    {{ $review->title }}
+                </div>
+                <div class="comment--data">
+                    {{ $review->text }}
+                </div>
+                <div class="buttons">
+                    <div class="button" onclick="updateComment(this)" data-request="{{ route('reviews.show',  $review->id) }}">
+                        Редактировать отзыв
+                    </div>
+                    <div class="button" onclick="showAll(this)" data-request="{{ route('reviews.show',  $review->id ) }}">
+                        Читать весь отзыв
+                    </div>
+                </div>
             </div>
-            <div class="date">
-                07.10.2022
-            </div>
-            <div class="comment--title">
-                Прототип нового сервиса — это как треск разлетающихся скреп!
-            </div>
-            <div class="comment--data">
-                Вот вам яркий пример современных тенденций — постоянное информационно-пропагандистское обеспечение нашей
-                деятельности не оставляет шанса для новых принципов формирования материально-технической и кадровой
-                базы. Мы вынуждены отталкиваться от того, что сплочённость команды профессионалов говорит о возможностях
-                существующих финансовых и административных условий. И нет сомнений, что базовые сценарии поведения
-                пользователей функционально разнесены на независимые элементы.
-            </div>
-            <div class="buttons">
-                <div class="button">Читать весь отзыв</div>
-            </div>
-        </div>
+        @endforeach
     @endauth
 @endsection

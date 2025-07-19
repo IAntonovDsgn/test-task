@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/user/update', [UserController::class, 'update'])->name('user.update');
     Route::post('/user/update-photo', [UserController::class, 'updatePhoto'])->name('user.update-photo');
     Route::post('/user/update-password', [UserController::class, 'updatePassword'])->name('user.update-password');
+    Route::post('/reviews/update', [ReviewController::class, 'update'])->name('reviews.update');
 });
 
 Route::middleware('guest')->group(function () {

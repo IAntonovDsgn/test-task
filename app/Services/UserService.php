@@ -31,14 +31,12 @@ class UserService
 
     public function registerAndAuth(array $data): void
     {
-        if ($user = $this->userRepository->createUser($data)) {
+        try {
+            $user = $this->userRepository->createUser($data);
             Auth::login($user);
-        } else {
-            throw ValidationException::withMessages([
-                'error' => 'Ошибка: не удалось создать пользователя'
-            ]);
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e);
         }
-
     }
 
     public function update(Authenticatable $user, array $data): void

@@ -49,7 +49,14 @@
                         {{ $review->text }}
                     </div>
                     <div class="buttons">
-                        <div class="button" onclick="showAll(this)" data-request="{{ route('reviews.show',  $review->id ) }}">Читать весь отзыв</div>
+                        @if(auth()->user() && auth()->user()->id == $review->user_id)
+                            <div class="button" onclick="updateComment(this)" data-request="{{ route('reviews.show',  $review->id) }}">
+                                Редактировать отзыв
+                            </div>
+                        @endif
+                        <div class="button" onclick="showAll(this)" data-request="{{ route('reviews.show',  $review->id) }}">
+                            Читать весь отзыв
+                        </div>
                     </div>
                 </div>
             @endforeach
@@ -61,9 +68,9 @@
             <div class="counts">
                 <input id="per-page" name="per-page" value="{{$perPage ?? 10}}">
                 Показывать по:
-                <p class="count {{ $perPage == 10 ? 'active' : '' }}" onclick="cauntPerPage(this)">10</p>
-                <p class="count {{ $perPage == 20 ? 'active' : '' }}" onclick="cauntPerPage(this)">20</p>
-                <p class="count {{ $perPage == 50 ? 'active' : '' }}" onclick="cauntPerPage(this)">50</p>
+                <p class="count {{ $perPage == 10 ? 'active' : '' }}" onclick="countPerPage(this)">10</p>
+                <p class="count {{ $perPage == 20 ? 'active' : '' }}" onclick="countPerPage(this)">20</p>
+                <p class="count {{ $perPage == 50 ? 'active' : '' }}" onclick="countPerPage(this)">50</p>
             </div>
         </div>
 

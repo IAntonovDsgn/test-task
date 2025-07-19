@@ -17,6 +17,9 @@
     @include('partials.header')
     @include('partials.menu')
     @include('reviews.add-comment')
+    @auth()
+        @include('reviews.update-comment')
+    @endauth
 
     <div class="content">
         @yield('content')
