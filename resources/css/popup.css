@@ -1,3 +1,13 @@
+input {
+    font-family: "Times New Roman", serif;
+    font-size: 11pt;
+}
+
+textarea {
+    font-family: "Times New Roman", serif;
+    font-size: 11pt;
+}
+
 .popup {
     width: 480px;
     margin: 40px calc(50% - 240px);

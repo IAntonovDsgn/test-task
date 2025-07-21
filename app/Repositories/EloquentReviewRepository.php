@@ -38,8 +38,8 @@ class EloquentReviewRepository
         return Review::with('user:id,name')->where('user_id','=', $userId)->orderBy('created_at', 'desc')->get();
     }
 
-    public function storeReview(array $data): bool
+    public function storeReview(array $data): void
     {
-        return Review::create($data);
+        Review::create($data);
     }
 }

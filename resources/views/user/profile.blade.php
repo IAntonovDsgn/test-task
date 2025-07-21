@@ -12,7 +12,7 @@
                 <div class="my-profile">
                     <img
                         id="current-avatar"
-                        src="{{ asset('storage/' . auth()->user()->photo) }}"
+                        src="@if(auth()->user()->photo){{ asset('/storage/'.auth()->user()->photo) }}@else{{ asset('/image/default-avatar.svg') }}@endif"
                         alt="Avatar"
                         class="photo"
                     >
@@ -179,10 +179,12 @@
                     {{ $review->text }}
                 </div>
                 <div class="buttons">
-                    <div class="button" onclick="updateComment(this)" data-request="{{ route('reviews.show',  $review->id) }}">
+                    <div class="button" onclick="updateComment(this)"
+                         data-request="{{ route('reviews.show',  $review->id) }}">
                         Редактировать отзыв
                     </div>
-                    <div class="button" onclick="showAll(this)" data-request="{{ route('reviews.show',  $review->id ) }}">
+                    <div class="button" onclick="showAll(this)"
+                         data-request="{{ route('reviews.show',  $review->id ) }}">
                         Читать весь отзыв
                     </div>
                 </div>

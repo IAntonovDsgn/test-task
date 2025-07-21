@@ -6,6 +6,7 @@ use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
 use App\Repositories\EloquentReviewRepository;
 use \Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class ReviewService
@@ -52,5 +53,16 @@ class ReviewService
         } catch (\Exception $e) {
             throw new \RuntimeException($e);
         }
+    }
+
+    public function getUsersReview(int $userId): Collection
+    {
+        try {
+            $reviews = $this->reviewRepository->getUsersReviews($userId);
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e);
+        }
+
+        return $reviews;
     }
 }

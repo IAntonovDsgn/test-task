@@ -9,11 +9,10 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdatePhotoUserRequest;
 use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Repositories\EloquentReviewRepository;
+use App\Services\ReviewService;
 use App\Services\UserService;
 use http\Exception\RuntimeException;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -21,11 +20,11 @@ use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
-    public function index(EloquentReviewRepository $reviewRepository): View
+    public function index(ReviewService $reviewService): View
     {
         try {
-            $reviews = $reviewRepository->getUsersReviews(Auth::user()->id);
-        } catch (ModelNotFoundException $e) {
+            $reviews = $reviewService->getUsersReview(Auth::user()->id);
+        } catch (RuntimeException $e) {
             return view('user.profile')->withErrors(['error' => $e->getMessage()]);
         }
 

@@ -20,6 +20,6 @@ class ReviewSeeder extends Seeder
 //            'user_id' => 3
 //            ]);
 
-        Review::factory()->count(33)->create();
+        Review::factory()->count(60)->create();
     }
 }

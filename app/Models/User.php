@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\CanResetPassword;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -44,22 +43,6 @@ class User extends Authenticatable implements CanResetPassword
     protected $casts = [
         'password' => 'hashed',
     ];
-
-    //аксессор для поля photo:
-    protected function photo(): Attribute
-    {
-        return Attribute::make(
-            get: function ($value) {
-
-                if (empty($value)) {
-                    return ('photos/default-avatar.svg');
-                }
-
-                return $value;
-
-            }
-        );
-    }
 
     public function reviews(): hasMany
     {

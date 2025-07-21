@@ -49,7 +49,7 @@ class ReviewController extends Controller
             return back()->withErrors(['error' => $e->getMessage()]);
         }
 
-        return back();
+        return redirect()->route('reviews.index');
     }
 
     public function update(UpdateReviewRequest $request, ReviewService $reviewService): RedirectResponse
