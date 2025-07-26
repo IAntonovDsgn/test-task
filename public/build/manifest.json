@@ -1,0 +1,63 @@
+{
+  "public/image/eye-open.png": {
+    "file": "assets/eye-open-DE_pXatE.png",
+    "src": "public/image/eye-open.png"
+  },
+  "public/image/mdi_eye-off-outline.svg": {
+    "file": "assets/mdi_eye-off-outline-D73GYe_5.svg",
+    "src": "public/image/mdi_eye-off-outline.svg"
+  },
+  "resources/css/base.css": {
+    "file": "assets/base-1y6JM89i.css",
+    "src": "resources/css/base.css",
+    "isEntry": true
+  },
+  "resources/css/comments.css": {
+    "file": "assets/comments-Ca4y2Wov.css",
+    "src": "resources/css/comments.css",
+    "isEntry": true
+  },
+  "resources/css/footer.css": {
+    "file": "assets/footer-MrrUOS2i.css",
+    "src": "resources/css/footer.css",
+    "isEntry": true
+  },
+  "resources/css/header.css": {
+    "file": "assets/header-BrrPDPeq.css",
+    "src": "resources/css/header.css",
+    "isEntry": true
+  },
+  "resources/css/menu.css": {
+    "file": "assets/menu-_4OzBytb.css",
+    "src": "resources/css/menu.css",
+    "isEntry": true
+  },
+  "resources/css/popup.css": {
+    "file": "assets/popup-BOKde5Vs.css",
+    "src": "resources/css/popup.css",
+    "isEntry": true
+  },
+  "resources/css/profile.css": {
+    "file": "assets/profile-Blubl_RL.css",
+    "src": "resources/css/profile.css",
+    "isEntry": true
+  },
+  "resources/js/authentication.js": {
+    "file": "assets/authentication-p7qXUvGL.js",
+    "name": "authentication",
+    "src": "resources/js/authentication.js",
+    "isEntry": true
+  },
+  "resources/js/base.js": {
+    "file": "assets/base-8aF-o74C.js",
+    "name": "base",
+    "src": "resources/js/base.js",
+    "isEntry": true
+  },
+  "resources/js/comments.js": {
+    "file": "assets/comments-3uNcHaD0.js",
+    "name": "comments",
+    "src": "resources/js/comments.js",
+    "isEntry": true
+  }
+}
