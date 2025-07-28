@@ -36,3 +36,11 @@
 .profile .update-data .fields {
     width: 400px;
 }
+
+.password::-ms-reveal {
+    display: none;
+}
+
+.password::-ms-clear {
+    display: none;
+}

@@ -7,7 +7,7 @@
     <div class="popup">
         <div class="popup--info">
             <h2>Восстановление пароля</h2>
-            <div>Введите свою почту и мы отправим Вам ссылку на восстановление пароля</div>
+            <div>Введите свою почту и новый пароль</div>
         </div>
 
         <form action="{{ route('password.reset.store') }}" id="auth-data" class="popup--fields" method="post"
