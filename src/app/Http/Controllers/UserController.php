@@ -39,10 +39,12 @@ class UserController extends Controller
     public function store(StoreUserRequest $request, UserService $userService): RedirectResponse
     {
         try {
-            $userService->registerAndAuth($request->validated());
+            $user = $userService->register($request->validated());
         } catch (RuntimeException $e) {
             return back()->withErrors($e->getMessage());
         }
+
+        Auth::login($user);
 
         return back();
     }

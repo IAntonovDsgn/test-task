@@ -12,7 +12,7 @@
                 <div class="my-profile">
                     <img
                         id="current-avatar"
-                        src="@if(auth()->user()->photo){{ asset('/storage/'.auth()->user()->photo) }}@else{{ asset('/image/default-avatar.svg') }}@endif"
+                        src="@if(auth()->user()->photo){{ Storage::url(auth()->user()->photo) }}@else{{ asset('/image/default-avatar.svg') }}@endif"
                         alt="Avatar"
                         class="photo"
                     >

@@ -29,11 +29,10 @@ class UserService
         }
     }
 
-    public function registerAndAuth(array $data): void
+    public function register(array $data): User
     {
         try {
-            $user = $this->userRepository->createUser($data);
-            Auth::login($user);
+            return $this->userRepository->createUser($data);
         } catch (\Exception $e) {
             throw new \RuntimeException($e);
         }

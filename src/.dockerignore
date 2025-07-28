@@ -1,0 +1,18 @@
+.idea/
+.env
+.git
+node_modules/
+docker-compose.*
+../docker/app/Dockerfile
+vendor/
+tests
+
+# Исключаем старые логи и кэш
+storage/logs/*
+storage/framework/cache/*
+storage/framework/views/*
+storage/framework/sessions/*
+.phpunit.result.cache
+
+# Игнорировать симлинк, при создании контейнера будет создаваться новый симлинк
+public/storage

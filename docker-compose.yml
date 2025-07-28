@@ -1,0 +1,62 @@
+services:
+  app:
+    build:
+      context: src/
+      dockerfile: Dockerfile
+    container_name: app
+    volumes:
+      - app-public:/var/www/public # монтируем сетевой том app-public в /var/www/public, который будет использоваться совместно с nginx
+      - app-storage:/var/www/storage # папка storage также будет использоваться совместно с nginx
+    environment:
+      # Переменные окружения для Laravel .env
+      - APP_NAME=app
+      - APP_URL=http://localhost:8000/
+      - DB_CONNECTION=mysql
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_DATABASE=laravel
+      - DB_USERNAME=root
+      - DB_PASSWORD=password
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=mailhog
+      - MAIL_PORT=1025
+    depends_on:
+      - mariadb
+
+  nginx:
+    image: nginx:stable-alpine  # Легковесный образ nginx
+    container_name: nginx
+    ports:
+      - "8000:80"  # Проброс порта (хост:контейнер)
+    volumes:
+      - app-public:/var/www/public # Подключаем том, используемый совместно с app
+      - app-storage:/var/www/storage
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf  # Монтируем конфиг в образ
+    depends_on:
+      - app  # Поднимаем контейнер после запуска app
+
+  mariadb:
+    image: mariadb:11.4
+    container_name: mariadb
+    environment:
+      # Переменные для инициализации БД
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3316:3306"
+    volumes:
+      - mariadb-data:/var/lib/mysql  # Монтируем папку для хранилища данных во время работы бд
+
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"  # пробрасываем SMTP порт для отправки
+      - "8025:8025"  # пробрасываем порт для доступа к веб-интерфейсу
+
+volumes:
+  mariadb-data:
+  app-public:
+  app-storage:
